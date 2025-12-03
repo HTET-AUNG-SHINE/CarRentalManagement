@@ -1,0 +1,29 @@
+﻿using CarRentalManagement.Configurations.Entities;
+using CarRentalManagement.Data;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+
+namespace CarRentalManagement.Data
+{
+    public class CarRentalManagementContext(DbContextOptions<CarRentalManagementContext> options) : IdentityDbContext<CarRentalManagementUser>(options)
+    {
+        public DbSet<CarRentalManagement.Domain.Make> Make { get; set; } = default!;
+        public DbSet<CarRentalManagement.Domain.Model> Model { get; set; } = default!;
+        public DbSet<CarRentalManagement.Domain.Colour> Colour { get; set; } = default!;
+        public DbSet<CarRentalManagement.Domain.Vehicles> Vehicles { get; set; } = default!;
+        public DbSet<CarRentalManagement.Domain.Customer> Customer { get; set; } = default!;
+        public DbSet<CarRentalManagement.Domain.Booking> Booking { get; set; } = default!;
+
+        protected override void OnModelCreating(ModelBuilder Builder)
+        {
+            base.OnModelCreating(Builder);
+
+            Builder.ApplyConfiguration(new ColourSeed());
+            Builder.ApplyConfiguration(new MakeSeed());
+            Builder.ApplyConfiguration(new ModelSeed());
+            Builder.ApplyConfiguration(new RoleSeed());
+            Builder.ApplyConfiguration(new UserSeed());
+            Builder.ApplyConfiguration(new UserRoleSeed());
+        }
+    }
+}
